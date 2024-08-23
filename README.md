@@ -46,3 +46,4 @@ giving users information about the risks of downloading without a VPN.
 [release]: https://github.com/qarbox/qar/releases
 [mdns]: https://en.wikipedia.org/wiki/Multicast_DNS
 [qbittorrent]: https://www.qbittorrent.org/
+[jellyfin]: https://jellyfin.org/
