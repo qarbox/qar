@@ -1,0 +1,13 @@
+[Unit]
+Description=qar
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/qar-daemon
+Restart=on-failure
+User=root
+Group=root
+
+[Install]
+WantedBy=multi-user.target
