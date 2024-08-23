@@ -7,7 +7,7 @@ It is designed to be installed on a Linux system and provide:
  * A web interface focused on basic tasks like setup and configuration that is
    simple even for less experienced users.
 
- * [qBittorrent](qbittorrent) for download management. Media downloads happen
+ * [qBittorrent][qbittorrent] for download management. Media downloads happen
    automatically in the background, but users can access the download management
    web interface if you want.
 
