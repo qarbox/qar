@@ -1,0 +1,118 @@
+
+{% extends "wizard/base.html" %}
+
+{% set name = "limits" %}
+{% set title = "How ye like to spend yer doubloons?" %}
+{% set subtitle = "Qar wants to know how much Internet to use." %}
+{% set prev = "quality" %}
+{% set next = "review" %}
+
+{% block content %}
+
+<p>
+    You should limit how much bandwidth is used when downloading
+    content. 
+</p>
+<form>
+    <div class="form-group">
+        <label for="wizard-limit-monthly">Monthly Bandwidth:</label>
+        <div class="input-group">
+            <input type="number" class="form-control" id="wizard-limit-monthly" min="0" step="100" value="1200">
+            <div class="input-group-append">
+                <span class="input-group-text">GB</span>
+            </div>
+        </div>
+
+        <div class="form-text">
+            How much bandwidth total you want to use monthly on downloading content. Most Internet companies
+            have a limit of about 1TB per month and beware that they lie about "Unlimited" data plans.
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="wizard-limit-download">Download Limit:</label>
+        <div class="input-group">
+            <input type="number" class="form-control" id="wizard-limit-download" min="0" step="100">
+            <div class="input-group-append">
+                <span class="input-group-text">KB/s</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="wizard-limit-upload">Upload Limit:</label>
+        <div class="input-group">
+            <input type="number" class="form-control" id="wizard-limit-upload" min="0" step="100">
+            <div class="input-group-append">
+                <span class="input-group-text">KB/s</span>
+            </div>
+        </div>
+
+        <div class="form-text">
+            How much of your Internet speed to use for downloading media. You want to set this
+            slightly below your maximum speed to ensure other apps and games on your network don't
+            experience lag.
+        </div>
+    </div>
+
+    <div class="my-2">
+        <button class="btn btn-primary" id="speedtest-button">
+            <span id="speedtest-spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+            <span class="button-label">
+                Auto-Detect Speed
+            </span>
+        </button>
+
+        <div id="speedtest-results" class="d-none">
+            Your download speed is
+            <span id="speedtest-download">0</span> KB/s
+            and your upload speed is
+            <span id="speedtest-upload">0</span> KB/s.
+        </div>
+
+        <div class="form-text">
+            Detect the speed of your internet automatically by running a speed test and
+            and setting the limits to 80% of your download and 50% of your upload. The test
+            will last about 30 seconds and may cause lag during that time.
+        </div>
+    </div>
+</form>
+
+<script>
+$(function () {
+    $('#speedtest-button').click(function() {
+        const spinner = $('#speedtest-spinner');
+        const button = $(this);
+        const results = $('#speedtest-results');
+        const label = button.find('.button-label');
+        const originalLabel = label.text();
+
+        spinner.removeClass('d-none');
+        results.addClass('d-none');
+        label.text('Running test...');
+        button.prop('disabled', true);
+
+        $.post('/speedtest', function (data) {
+            const downloadLimit = (data.download / 8 * 0.80) | 0;
+            const uploadLimit = (data.upload / 8 * 0.50) | 0;
+
+            $('#speedtest-results').show();
+            $('#speedtest-download').text(downloadLimit);
+            $('#speedtest-upload').text(uploadLimit);
+
+            $('#wizard-limit-upload').val(uploadLimit);
+            $('#wizard-limit-download').val(downloadLimit);
+
+            spinner.addClass('d-none');
+            button.prop('disabled', false);
+            label.text(originalLabel);
+            results.removeClass('d-none');
+        }).done(function () {
+            button.prop('disabled', false);
+            label.text(originalLabel);
+        });
+    });
+});
+</script>
+
+{% endblock %}

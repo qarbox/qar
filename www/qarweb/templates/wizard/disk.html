@@ -1,0 +1,76 @@
+
+{% extends "wizard/base.html" %}
+
+{% set name = "disk" %}
+{% set title = "Where be ye stashin' yer booty?" %}
+{% set subtitle = "Qar needs a place to store yer movies and TV shows." %}
+{% set prev = "language" %}
+{% set next = "internet" %}
+
+{% block content %}
+
+<ul class="nav nav-pills" id="storage-tabs" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" data-disk-mode="default" id="storage-tab-default-label" data-bs-toggle="tab" data-bs-target="#storage-tab-default" type="button" role="tab" aria-controls="tab1" aria-selected="true">
+            Default Disk
+        </button>
+    </li>
+
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" data-disk-mode="separate" id="storage-tab-separate-label" data-bs-toggle="tab" data-bs-target="#storage-tab-separate" type="button" role="tab" aria-controls="tab2" aria-selected="false">
+            Separate Disk
+        </button>
+    </li>
+
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" data-disk-mode="existing" id="storage-tab-existing-label" data-bs-toggle="tab" data-bs-target="#storage-tab-existing" type="button" role="tab" aria-controls="tab3" aria-selected="false">
+            Existing Library
+        </button>
+    </li>
+</ul>
+
+<div class="tab-content my-4" id="storage-tab-content">
+    <div class="tab-pane fade show active" id="storage-tab-default" role="tabpanel" aria-labelledby="storage-tab-default-label">
+        <p>
+            Files will be stored on the default disk. This is ideal for simple setups where
+            there is one hard drive in the computer.
+        </p>
+        <p>
+            If you need more space you will
+            need to get a larger disk and copy all the files later.
+        </p>
+    </div>
+
+    <div class="tab-pane fade" id="storage-tab-separate" role="tabpanel" aria-labelledby="storage-tab-separate-label">
+        <div class="alert alert-warning">
+            TODO this is not implemented yet.
+        </div>
+        <p>
+            Files are stored on a separate disk. This is ideal for setups where you wish to add
+            more storage space without replacing the existing disk.
+        </p>
+
+    </div>
+
+    <div class="tab-pane fade" id="storage-tab-existing" role="tabpanel" aria-labelledby="storage-tab-existing-label">
+        <div class="alert alert-warning">
+            TODO this is not implemented yet.
+        </div>
+        <p>
+            Files are stored in a specific location you provide. It can be anywhere
+            and configured however you like as long as reading and writing files works
+            as expected.
+        </p>
+        <form>
+            <div class="mb-3">
+                <label for="wizard-disk-existing-path" class="form-label">Location of Files</label>
+                <input type="text" class="form-control" id="wizard-disk-existing-path" placeholder="/some/place">
+                <div class="form-text">
+                    A directory on the server where files are stored.
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

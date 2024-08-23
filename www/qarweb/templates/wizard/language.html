@@ -1,0 +1,28 @@
+
+{% extends "wizard/base.html" %}
+
+{% set name='language' %}
+{% set title='What be yer preferred language, matey?' %}
+{% set subtitle='Qar wants to know your language.' %}
+{% set prev='welcome' %}
+{% set next='disk' %}
+
+{% block content %}
+
+<p>
+    Select the language you want to watch movies and TV shows in.
+</p>
+<form>
+    <div class="form-group my-4">
+        <label for="wizard-language">Select Language:</label>
+        <select class="form-control" id="wizard-language">
+            <option value="english">English</option>
+            <option value="spanish">Spanish</option>
+            <option value="french">French</option>
+            <option value="german">German</option>
+            <option value="italian">Italian</option>
+        </select>
+    </div>
+</form>
+
+{% endblock %}

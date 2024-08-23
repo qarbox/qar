@@ -1,0 +1,51 @@
+
+{% extends "wizard/base.html" %}
+
+{% set name = "quality" %}
+{% set title = "What be yer preferred quality, matey?" %}
+{% set subtitle = "Qar wants to know the quality ye desire for yer movies and TV shows." %}
+{% set prev = "internet" %}
+{% set next = "limits" %}
+
+{% block content %}
+
+<form>
+    <div class="form-group">
+        <label for="wizard-quality">Preferred Quality:</label>
+        <select class="form-control" id="wizard-quality">
+            <option value="480p">480p</option>
+            <option value="720p" selected>720p</option>
+            <option value="1080p">1080p</option>
+            <option value="1440p">1440p</option>
+            <option value="4K">4K</option>
+        </select>
+        <div class="form-text">
+            Select the quality you prefer for your movies and TV shows. This is used when
+            downloading or transcoding content to save space.
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="wizard-transcoding">Transcoding:</label>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="wizard-transcoding" id="transcoding-auto" value="automatic" checked>
+            <label class="form-check-label" for="transcoding-auto">
+                Automatic
+            </label>
+            <div class="form-text text-muted">
+                Transcoding will be done automatically in the background to save space based on
+                your preferred quality.
+            </div>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="wizard-transcoding" id="transcoding-manual" value="manual">
+            <label class="form-check-label" for="transcoding-manual">
+                Manual
+            </label>
+            <div class="form-text text-muted">
+                Transcoding may be done manually by the user.
+            </div>
+        </div>
+    </div>
+</form>
+
+{% endblock %}

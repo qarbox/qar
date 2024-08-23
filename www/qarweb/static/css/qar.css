@@ -1,0 +1,149 @@
+
+html {
+    /* background-image: url("bg.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    width: 100vw;
+    height: 100vh; */
+    
+}
+
+/* body::before {
+    z-index: -1;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.666); 
+    animation: fade-in 3s;
+} */
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fade-out {
+    0% {
+        opacity: 1;
+    }
+    
+    66% {
+        opacity: 0.1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes scale-in {
+    0% {
+        transform: scale(5);
+        transform-origin: center;
+    }
+    
+    100% {
+        transform: scale(1);
+        transform-origin: center;
+    }
+}
+
+@keyframes scale-away {
+    0% {
+        transform: scale(1);
+        transform-origin: center;
+    }
+    
+    100% {
+        transform: scale(0.5);
+        transform-origin: center;
+    }
+}
+
+
+/** Animation of scaling up and colorizing */
+@keyframes pop-colorize {
+    0% {
+        transform: scale(1) translate(0, 0);
+        transform-origin: center;
+        filter: hue-rotate(0deg) blur(0);
+    }
+    
+    100% {
+        transform: scale(2) translate(0, -25%);
+        filter: hue-rotate(420deg) blur(60px);
+    }
+}
+
+/** Animation of scaling and desaturing */
+@keyframes pop-desaturate {
+    0% {
+        transform: scale(1) translate(0, 0);
+        transform-origin: center;
+        filter: saturate(100%) blur(0);
+    }
+
+    33% {
+        filter: saturate(0%) blur(5px);
+    }
+
+    100% {
+        transform: scale(1.5) translate(0, 25%);
+        filter: saturate(0%) blur(50px);
+    }
+}
+
+.page {
+    margin: 1rem auto;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+
+}
+
+.page.visible {
+    display: block;
+}
+
+
+.page.trans-in {
+    animation: scale-in 0.666s forwards, fade-in 0.666s forwards;
+}
+
+/** Ensure that while pages are animating scrollbars dont appear */
+body:has(.page.trans-out),
+body:has(.page-trans-in),
+html:has(.page.trans-in),
+html:has(.page.trans-out) {
+    overflow: hidden;
+}
+
+.page.trans-out {
+    animation: scale-away 0.666s forwards, fade-out 0.666s forwards;
+}
+
+.page.trans-out-accept .splash-image {
+    animation: pop-colorize 0.666s forwards;
+}
+
+.page.trans-out-cancel .splash-image {
+    animation: pop-desaturate 0.666s forwards;
+}
+
+.img-fluid.splash-image {
+    max-height: 30vh;
+    width: auto;
+}

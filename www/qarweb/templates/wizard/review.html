@@ -1,0 +1,265 @@
+
+{% extends "wizard/base.html" %}
+
+{% set name = "review" %}
+{% set title = "Let's set sail!" %}
+{% set subtitle = "Qar is ready to finish setup." %}
+{% set prev = "limits" %}
+
+{% block content %}
+<p>
+    Verify everything here looks correct and
+    the setup can finish.
+</p>
+
+<table class="table">
+    <tbody>
+        <tr>
+            <th><a href="#wizard-language">Language</a>:</th>
+            <td id="wizard-review-language" width="80%"></td>
+        </tr>
+        <tr>
+            <th><a href="#wizard-disk">Disk</a>:</th>
+            <td id="wizard-review-disk"></td>
+        </tr>
+        <tr>
+            <th><a href="#wizard-internet">Internet</a>:</th>
+            <td id="wizard-review-internet"></td>
+        </tr>
+        <tr>
+            <th><a href="#wizard-vpn">VPN</a>:</th>
+            <td id="wizard-review-vpn"></td>
+        </tr>
+        <tr>
+            <th><a href="#wizard-quality">Quality</a>:</th>
+            <td id="wizard-review-quality"></td>
+        </tr>
+        <tr>
+            <th><a href="#wizard-limits">Limits</a>:</th>
+            <td id="wizard-review-limits"></td>
+        </tr>
+    </tbody>
+</table>
+
+<div>
+    <button id="review-finish-button" class="btn btn-primary">
+        Finish Setup
+    </button>
+</div>
+
+<script>
+$(document).on("page-changed", function (event, page) {
+    console.log("changepage", page);
+
+    if (page !== "wizard-review") {
+        return;
+    }
+
+    function getLanguageConfig() {
+        return $("#wizard-language").val();
+    }
+
+    function validateLanguage(config) {
+        return config.language !== "";
+    }
+
+    function summarizeLanguage(section, config) {
+        return config.language;
+    }
+
+    function getDiskConfig() {
+        const mode = $("#storage-tabs .nav-item button.active").data("disk-mode");
+        const path = $("#wizard-disk-path").val();
+
+        return {
+            mode,
+            path,
+        };
+    }
+
+    function validateDisk(config) {
+        return config.disk.mode !== "";
+    }
+
+    function summarizeDisk(section, config) {
+        return config.disk.mode;
+    }
+
+    function getInternetConfig() {
+        const mode = $("#internet-tabs .nav-item button.active").data("internet-mode");
+        const ssid = $("#wizard-internet-wifi-ssid").val();
+        const password = $("#wizard-internet-wifi-password").val();
+
+        return {
+            mode,
+            ssid,
+            password,
+        };
+    }
+
+    function validateInternet(config) {
+        return config.internet.mode !== "";
+    }
+
+    function summarizeInternet(section, config) {
+        return config.internet.mode;
+    }
+
+    function getVPNConfig() {
+        const mode = $("#vpn-tabs .nav-item button.active").data("vpn-mode");
+        const provider = $("#wizard-vpn-provider").val();
+        const username = $("#wizard-vpn-username").val();
+        const password = $("#wizard-vpn-password").val();
+
+        return {
+            mode,
+            provider,
+            username,
+            password,
+        };
+    }
+
+    function validateVPN(config) {
+        switch (config.vpn.mode) {
+            case "enabled":
+                return (
+                    config.vpn.provider !== "" &&
+                    config.vpn.username !== "" &&
+                    config.vpn.password !== ""
+                );
+           case "disabled":
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    function summarizeVPN(section, config) {
+        switch (config.vpn.mode) {
+            case "enabled":
+                return `Using ${config.vpn.provider}`;
+            case "disabled":
+                return "Not using VPN";
+            default:
+                return "Unknown VPN mode";
+        }
+    }
+
+    function getQualityConfig() {
+        const quality = $("#wizard-quality").val();
+        const transcoding = $("#wizard-transcoding").val();
+
+        return {
+            quality,
+            transcoding,
+        };
+    }
+
+    function validateQuality(config) {
+        return config.quality.quality !== "";
+    }
+
+    function summarizeQuality(section, config) {
+        return config.quality.quality;
+    }
+
+    function getLimitsConfig() {
+        const monthly = $("#wizard-limit-monthly").val();
+        const download = $("#wizard-limit-download").val();
+        const upload = $("#wizard-limit-upload").val();
+
+        return {
+            monthly,
+            download,
+            upload,
+        };
+    }
+
+    function validateLimits(config) {
+        return (
+            config.limits.monthly !== "" &&
+            config.limits.download !== "" &&
+            config.limits.upload !== ""
+        );
+    }
+
+    function summarizeLimits(section, config) {
+        return `Monthly: ${config.limits.monthly}, Download: ${config.limits.download} KB/s, Upload: ${config.limits.upload} KB/s`;
+    }
+
+    var config = {
+        language: getLanguageConfig(),
+        disk: getDiskConfig(),
+        internet: getInternetConfig(),
+        vpn: getVPNConfig(),
+        quality: getQualityConfig(),
+        limits: getLimitsConfig(),
+    }
+
+    console.log(config);
+
+    function createSection(name) {
+        const section = $(`#wizard-review-${name}`);
+        const link = `#wizard-${name}`;
+        var summary = section.find(".wizard-review-summary");
+
+        if (summary.length <= 0) {
+            summary = $(`<div class="wizard-review-summary"></div>`);
+            summary.hide();
+            section.append(summary);
+        }
+
+        var missing = section.find(".wizard-review-missing");
+
+        if (missing.length <= 0) {
+            missing = $(`<div class="wizard-review-missing"></div>`);
+            missing.hide();
+            section.append(missing);
+        }
+
+        var missingButton = missing.find("a.btn");
+
+        if (missingButton.length <= 0) {
+            missingButton = $(`<a href="${link}" class="btn btn-danger">Configure</a>`);
+            missing.append(missingButton);
+        }
+
+        return {
+            section,
+            summary,
+            missing,
+            missingButton,
+        }
+    }
+
+    const wizardSteps = [
+        ["language", validateLanguage, summarizeLanguage],
+        ["disk", validateDisk, summarizeDisk],
+        ["internet", validateInternet, summarizeInternet],
+        ["vpn", validateVPN, summarizeVPN],
+        ["quality", validateQuality, summarizeQuality],
+        ["limits", validateLimits, summarizeLimits],
+    ];
+
+    var hasInvalidStep = false;
+
+    for (const [name, validate, summarize] of wizardSteps) {
+        const section = createSection(name);
+        const isValid = validate(config);
+
+        if (isValid) {
+            const summary = summarize(section, config);
+            section.summary.text(summary).show();
+            section.missing.hide();
+        } else {
+            hasInvalidStep = true;
+            section.summary.text("").hide();
+            section.missing.show();
+        }
+    }
+    
+    $("#review-finish-button").prop("disabled", hasInvalidStep);
+});
+</script>
+
+{% endblock %}

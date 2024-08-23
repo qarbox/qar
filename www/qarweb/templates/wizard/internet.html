@@ -1,0 +1,68 @@
+
+{% extends "wizard/base.html" %}
+
+{% set name = "internet" %}
+{% set title = "How we be connectin'?" %}
+{% set subtitle = "Qar needs to connect to the internet." %}
+{% set prev = "disk" %}
+{% set next = "vpn" %}
+
+{% block content %}
+
+<ul class="nav nav-pills" id="internet-tabs" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" data-internet-mode="ethernet" id="ethernet-tab-label" data-bs-toggle="tab" data-bs-target="#ethernet-tab" type="button" role="tab" aria-controls="ethernet-tab" aria-selected="true">
+            Ethernet
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" data-internet-mode="wifi" id="wifi-tab-label" data-bs-toggle="tab" data-bs-target="#wifi-tab" type="button" role="tab" aria-controls="wifi-tab" aria-selected="false">
+            Wi-Fi
+        </button>
+    </li>
+</ul>
+
+<div class="tab-content my-4" id="internet-tab-content">
+    <div class="tab-pane fade show active" id="ethernet-tab" role="tabpanel" aria-labelledby="ethernet-tab-label">
+        <p>
+            Your server will connect to the internet using a cable. This is the most
+            reliable and avoids problems with slow streaming.
+        </p>
+    </div>
+
+    <div class="tab-pane fade" id="wifi-tab" role="tabpanel" aria-labelledby="wifi-tab-label">
+        <div class="alert alert-warning">
+            TODO - This is not implemented yet.
+        </div>
+        <p>
+            Your server will connect to the internet using Wi-Fi. This is a convenient, but is less reliable and can lead to
+            issues with slow or low quality streaming.
+        </p>
+        <p>
+            <form>
+                <div class="mb-3">
+                    <label for="wizard-internet-wifi-ssid" class="form-label text-center">Wi-Fi Name</label>
+                    <select class="form-select" id="wizard-internet-wifi-ssid">
+                        <option selected disabled>Select a Wi-Fi network</option>
+                        <option value="network1">Network 1</option>
+                        <option value="network2">Network 2</option>
+                        <option value="network3">Network 3</option>
+                    </select>
+                    <div class="form-text">
+                        Select the name of your Wi-Fi network.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="wizard-internet-wifi-password" class="form-label
+                    text-center">Wi-Fi Password</label>
+                    <input type="password" class="form-control" id="wizard-internet-wifi-password">
+                    <div class="form-text">
+                        The password for your Wi-Fi network.
+                    </div>
+                </div>
+            </form>
+        </p>
+    </div>
+</div>
+           
+{% endblock %}
