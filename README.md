@@ -17,11 +17,11 @@ It is designed to be installed on a Linux system and provide:
    too much bandwidth on accident while also ensuring the health of distributed
    content.
 
- * [Jellyfin](jellyfin) for media streaming making it highly accessible for PC,
+ * [Jellyfin][jellyfin] for media streaming making it highly accessible for PC,
    Android, iOS and smart TVs like Roku to watch.
 
  * `dockermdns` for publishing docker containers with different `.local` domain
- names each with their own IP address using [mDNS](mdns).
+ names each with their own IP address using [mDNS][mdns].
 
 ## Installation
 
